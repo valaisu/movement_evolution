@@ -1,0 +1,33 @@
+
+
+
+
+
+Ok so we are at the point where we can see that SMFL and Box2D are
+working, and we have a small demo. Next,
+
+
+
+ - create agents
+    - car
+    - dog
+
+ - agent features
+    - contain motors, and handles for controlling the motors
+    - agents can observe their surroundings #optional, for now
+        - like maybe just give them a cone vision with ten point
+          measures of distances
+
+
+ - when creating objects, make it as a requirement that they are
+   added to the games list of objects?
+
+
+these agents should have mechan
+
+
+
+
+
+
+
