@@ -12,13 +12,13 @@
 
 class Game {
 public:
-    Game(uint16_t window_h, uint16_t window_w, float fps, float gravity, float scaling_factor);
+    Game(uint16_t window_h, uint16_t window_w, float fps, float gravity, float visual_scaling_factor);
 
     sf::RenderWindow window;
     void add_body(Shape *shape);
     b2WorldId& get_world_id();
 
-    float get_scaling_factor();
+    float get_visual_scaling_factor();
     void progress_simulation();
     void draw();
     void display();
@@ -30,7 +30,7 @@ private:
     const float timestep;
     const float window_w;
     const float window_h;
-    const float scaling_factor;
+    const float visual_scaling_factor;
     std::vector<Shape*> shapes;
 };
 

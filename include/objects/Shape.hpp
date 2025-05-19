@@ -17,8 +17,8 @@ public:
     sf::Vector2f get_position();
     sf::Angle get_rotation();
     virtual void draw(sf::RenderWindow *window) const = 0;
-    virtual void update(float scaling_factor) = 0;
-    //void update(float scaling_factor); // passives dont need this
+    virtual void update(float visual_scaling_factor) = 0;
+    //void update(float visual_scaling_factor); // passives dont need this
     b2BodyId get_body_id();
     
 protected:

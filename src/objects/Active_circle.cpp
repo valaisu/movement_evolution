@@ -4,11 +4,11 @@
 
 #include "objects/Active_circle.hpp"
 
-Active_circle::Active_circle(b2Vec2 initial_position, float radius, float friction, float density, float scaling_factor, b2WorldId &worldId) :
+Active_circle::Active_circle(b2Vec2 initial_position, float radius, float friction, float density, float visual_scaling_factor, b2WorldId &worldId) :
     Shape(initial_position),
     radius(radius),
-    circle_visual(sf::CircleShape(radius*scaling_factor, 16))
-    //square_visual(sf::RectangleShape(sf::Vector2f(width*scaling_factor, height*scaling_factor)))
+    circle_visual(sf::CircleShape(radius*visual_scaling_factor, 16))
+    //square_visual(sf::RectangleShape(sf::Vector2f(width*visual_scaling_factor, height*visual_scaling_factor)))
 {
     bodyDef = b2DefaultBodyDef();
     bodyDef.type = b2_dynamicBody;
@@ -26,17 +26,17 @@ Active_circle::Active_circle(b2Vec2 initial_position, float radius, float fricti
 
     // Define visuals
     circle_visual.setFillColor(sf::Color(100, 100, 200));
-    circle_visual.setOrigin({scaling_factor*radius, scaling_factor*radius});
-    update(scaling_factor);
+    circle_visual.setOrigin({visual_scaling_factor*radius, visual_scaling_factor*radius});
+    update(visual_scaling_factor);
 }
 
 void Active_circle::draw(sf::RenderWindow *window) const {
     window->draw(circle_visual);
 }
 
-void Active_circle::update(float scaling_factor) {
+void Active_circle::update(float visual_scaling_factor) {
     position = b2Body_GetPosition(bodyId);
     rotation = b2Body_GetRotation(bodyId);
     circle_visual.setRotation(get_rotation()); // is this stupid? maybe, oh well
-    circle_visual.setPosition(get_position() * scaling_factor);
+    circle_visual.setPosition(get_position() * visual_scaling_factor);
 }

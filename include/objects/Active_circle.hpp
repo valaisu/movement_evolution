@@ -11,8 +11,8 @@
 
 class Active_circle : public Shape {
 public:
-    Active_circle(b2Vec2 initial_position, float radius, float friction, float density, float scaling_factor, b2WorldId &worldId);
-    void update(float scaling_factor) override;
+    Active_circle(b2Vec2 initial_position, float radius, float friction, float density, float visual_scaling_factor, b2WorldId &worldId);
+    void update(float visual_scaling_factor) override;
     void draw(sf::RenderWindow *window) const override;
 
 private:

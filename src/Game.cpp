@@ -8,10 +8,10 @@
 #include "objects/Passive_rectangle.hpp"
 #include "objects/Active_rectangle.hpp"
 
-Game::Game(uint16_t window_w, uint16_t window_h, float fps, float gravity, float scaling_factor) :
+Game::Game(uint16_t window_w, uint16_t window_h, float fps, float gravity, float visual_scaling_factor) :
     window_w(window_w),
     window_h(window_h),
-    scaling_factor(scaling_factor),
+    visual_scaling_factor(visual_scaling_factor),
     fps(fps), 
     timestep(1.0f/fps), 
     window(sf::VideoMode({window_w, window_h}), "Learn to run")
@@ -30,14 +30,14 @@ b2WorldId& Game::get_world_id() {
     return worldId;
 }
 
-float Game::get_scaling_factor() {
-    return scaling_factor;
+float Game::get_visual_scaling_factor() {
+    return visual_scaling_factor;
 }
 
 void Game::progress_simulation() {
     b2World_Step(worldId, timestep, 4); // i dont think substep count needs to be controllable
     for (auto obj : shapes) {
-        obj->update(scaling_factor);
+        obj->update(visual_scaling_factor);
     }
 }
 
