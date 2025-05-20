@@ -18,7 +18,11 @@ class Agent{
 public:
     virtual void update(float time_step) = 0;
 protected:
-    Agent();
+    Agent(b2Vec2 initial_position);
+    virtual ~Agent();
+    
+    std::vector<Shape*> body_parts;
+    b2Vec2 location;
 private:
     // I probably need a list of the body parts so that they can
     // be updated based on the user controls

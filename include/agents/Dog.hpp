@@ -11,18 +11,27 @@
 #include "agents/Agent.hpp"
 #include "objects/Shape.hpp"
 #include "objects/Active_rectangle.hpp"
+#include "Game.hpp"
 
 // the constructor defines what the body looks like, takes some work
 
-/* class Dog : public Agent{
+class Dog : public Agent{
 public:
-    Dog(float lower_leg_length, float upper_leg_length, float body_length);
-    void update(float time_step);
+    Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length, float body_length, float leg_radius, float body_radius, float visual_scaling_factor, Game *game, std::vector<Shape*> *shapes);
+    ~Dog() override;
+    
+    void update(float time_step) override;
 private:
-    std::vector<Shape*> body_parts;
-    // I probably need a list of the body parts so that they can
-    // be updated based on the user controls
-}; */
+    // this is a bubblegum solution
+    Active_rectangle* dog_body;
+    Active_rectangle* back_leg_upper;
+    Active_rectangle* back_leg_lower;
+    Active_rectangle* front_leg_upper;
+    Active_rectangle* front_leg_lower;
+    // also TODO: remove these in deconstructor
+    // body_parts;
+    // location
+}; 
 
 
 

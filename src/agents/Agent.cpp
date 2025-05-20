@@ -14,6 +14,9 @@
 
 
 
-Agent::Agent() {}
+Agent::Agent(b2Vec2 initial_position) :
+    location(initial_position) {}
 
+
+Agent::~Agent() {}
 

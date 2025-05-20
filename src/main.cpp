@@ -11,6 +11,7 @@
 #include "objects/Active_rectangle.hpp"
 #include "objects/Active_circle.hpp"
 #include "objects/Active_capsule.hpp"
+#include "agents/Dog.hpp"
 
 
 int main() {
@@ -66,70 +67,11 @@ int main() {
 
     b2JointId m_jointId1 = b2CreateRevoluteJoint( game.get_world_id(), &jointDef );
 
-    // creating connected bodies seemed successful, so lets try to create our "dog"
-    // Creating a dog seems to work
-    Active_rectangle dog_body((b2Vec2){16.5f, 13.6f}, 3.0f, 0.4f, 0.5f, 1.0f, visual_scaling_factor, game.get_world_id());
-    game.add_body(&dog_body);
-    shapes.push_back(&dog_body);
 
-    // BACK LEG
-    // create boxes
-    Active_rectangle back_leg_upper((b2Vec2){15.0f, 14.0f}, 0.4f, 1.0f, 0.5f, 1.0f, visual_scaling_factor, game.get_world_id());
-    Active_rectangle back_leg_lower((b2Vec2){15.0f, 15.0f}, 0.4f, 1.0f, 0.5f, 1.0f, visual_scaling_factor, game.get_world_id());
-    // connect with joint
-    b2RevoluteJointDef back_leg_joint_def = b2DefaultRevoluteJointDef();
-    back_leg_joint_def.bodyIdA = back_leg_upper.get_body_id();
-    back_leg_joint_def.bodyIdB = back_leg_lower.get_body_id();
-    // anchor point between legs
-    b2Vec2 pivot_back_leg = {15.0f, 14.5f};
-    back_leg_joint_def.localAnchorA = b2Body_GetLocalPoint(back_leg_upper.get_body_id(), pivot_back_leg);
-    back_leg_joint_def.localAnchorB = b2Body_GetLocalPoint(back_leg_lower.get_body_id(), pivot_back_leg);
-    // create the joint
-    b2JointId back_leg_joint = b2CreateRevoluteJoint( game.get_world_id(), &back_leg_joint_def );
-    // add active bodies to be updated
-    game.add_body(&back_leg_upper);
-    shapes.push_back(&back_leg_upper);
-    game.add_body(&back_leg_lower);
-    shapes.push_back(&back_leg_lower);
 
-    // FRONT LEG
-    Active_rectangle front_leg_upper((b2Vec2){18.0f, 14.0f}, 0.4f, 1.0f, 0.5f, 1.0f, visual_scaling_factor, game.get_world_id());
-    Active_rectangle front_leg_lower((b2Vec2){18.0f, 15.0f}, 0.4f, 1.0f, 0.5f, 1.0f, visual_scaling_factor, game.get_world_id());
-    // connect with joint
-    b2RevoluteJointDef front_leg_joint_def = b2DefaultRevoluteJointDef();
-    front_leg_joint_def.bodyIdA = front_leg_upper.get_body_id();
-    front_leg_joint_def.bodyIdB = front_leg_lower.get_body_id();
-    // anchor point between legs
-    b2Vec2 pivot_front_leg = {18.0f, 14.5f};
-    front_leg_joint_def.localAnchorA = b2Body_GetLocalPoint(front_leg_upper.get_body_id(), pivot_front_leg);
-    front_leg_joint_def.localAnchorB = b2Body_GetLocalPoint(front_leg_lower.get_body_id(), pivot_front_leg);
-    // create the joint
-    b2JointId front_leg_joint = b2CreateRevoluteJoint( game.get_world_id(), &front_leg_joint_def );
-    // add active bodies to be updated    
-    game.add_body(&front_leg_upper);
-    shapes.push_back(&front_leg_upper);
-    game.add_body(&front_leg_lower);
-    shapes.push_back(&front_leg_lower);
+    Dog* doge = new Dog((b2Vec2){16.5f, 13.6f}, 1.0f, 1.0f, 2.5f, 0.3f, 0.4f, visual_scaling_factor, &game, &shapes);
 
-    // Connect legs to body
-    // Front
-    b2RevoluteJointDef front_leg_body_joint_def = b2DefaultRevoluteJointDef();
-    front_leg_body_joint_def.bodyIdA = front_leg_upper.get_body_id();
-    front_leg_body_joint_def.bodyIdB = dog_body.get_body_id();
-    b2Vec2 pivot_front_leg_body = {18.0f, 13.5f};
-    front_leg_body_joint_def.localAnchorA = b2Body_GetLocalPoint(front_leg_upper.get_body_id(), pivot_front_leg_body);
-    front_leg_body_joint_def.localAnchorB = b2Body_GetLocalPoint(dog_body.get_body_id(), pivot_front_leg_body);
-    // create the joint
-    b2JointId front_leg_body_joint = b2CreateRevoluteJoint( game.get_world_id(), &front_leg_body_joint_def );
-    // Back
-    b2RevoluteJointDef back_leg_body_joint_def = b2DefaultRevoluteJointDef();
-    back_leg_body_joint_def.bodyIdA = back_leg_upper.get_body_id();
-    back_leg_body_joint_def.bodyIdB = dog_body.get_body_id();
-    b2Vec2 pivot_back_leg_body = {15.0f, 13.5f};
-    back_leg_body_joint_def.localAnchorA = b2Body_GetLocalPoint(back_leg_upper.get_body_id(), pivot_back_leg_body);
-    back_leg_body_joint_def.localAnchorB = b2Body_GetLocalPoint(dog_body.get_body_id(), pivot_back_leg_body);
-    // create the joint
-    b2JointId back_leg_body_joint = b2CreateRevoluteJoint( game.get_world_id(), &back_leg_body_joint_def );
+
 /*
 
 		m_enableSpring = false;
