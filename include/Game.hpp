@@ -8,6 +8,7 @@
 #include "objects/Shape.hpp"
 #include "objects/Passive_rectangle.hpp"
 #include "objects/Active_rectangle.hpp"
+#include "objects/Active_capsule.hpp"
 #include "agents/Agent.hpp"
 
 class Game {

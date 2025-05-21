@@ -24,11 +24,11 @@ public:
     void draw(sf::RenderWindow *window) const override;
 private:
     // this is a bit of a bubblegum solution
-    Active_rectangle* dog_body;
-    Active_rectangle* back_leg_upper;
-    Active_rectangle* back_leg_lower;
-    Active_rectangle* front_leg_upper;
-    Active_rectangle* front_leg_lower;
+    Active_capsule* dog_body;
+    Active_capsule* back_leg_upper;
+    Active_capsule* back_leg_lower;
+    Active_capsule* front_leg_upper;
+    Active_capsule* front_leg_lower;
     // also TODO: remove these in deconstructor
     // body_parts;
     // location

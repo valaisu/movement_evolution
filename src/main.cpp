@@ -43,9 +43,9 @@ int main() {
     //game.add_body(active_rectangle);
 
     // Try adding a capsule
-    Active_capsule* capsule = new Active_capsule((b2Vec2){13.0f, 13.0f}, (b2Vec2){14.0f, 14.0f}, 0.5f, 0.3f, 1.0f, visual_scaling_factor, game.get_world_id());
-    shapes.push_back(capsule);
-    game.add_body(capsule);
+    //Active_capsule* capsule = new Active_capsule((b2Vec2){13.0f, 13.0f}, (b2Vec2){14.0f, 14.0f}, 0.5f, 0.3f, 1.0f, visual_scaling_factor, game.get_world_id());
+    //shapes.push_back(capsule);
+    //game.add_body(capsule);
 
 
     // lets try to create a simple pendulum
@@ -134,6 +134,8 @@ int main() {
         game.progress_simulation();
         game.draw();
         game.display();
+
+        
         
         // try to keep the correct fps
         sf::Time elapsed = clock.getElapsedTime();

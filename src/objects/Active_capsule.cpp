@@ -10,14 +10,14 @@ Active_capsule::Active_capsule(b2Vec2 center_1, b2Vec2 center_2, float radius, f
 {
     bodyDef = b2DefaultBodyDef();
     bodyDef.type = b2_dynamicBody;
-    bodyDef.position = center_1;
+    //bodyDef.position = center_1;
     b2Vec2 diff = center_2 - center_1;
     // or
-    //b2Vec2 midpoint = {
-    //    (center_1.x + center_2.x) * 0.5f,
-    //    (center_1.y + center_2.y) * 0.5f
-    //};
-    //bodyDef.position = midpoint;
+    b2Vec2 midpoint = {
+        (center_1.x + center_2.x) * 0.5f,
+        (center_1.y + center_2.y) * 0.5f
+    };
+    bodyDef.position = midpoint;
     base_angle = b2Atan2(diff.y, diff.x);
     bodyDef.rotation = b2MakeRot(base_angle);
     bodyId = b2CreateBody(worldId, &bodyDef);
