@@ -28,6 +28,12 @@ Active_rectangle::Active_rectangle(b2Vec2 initial_position, float width, float h
     update(visual_scaling_factor);
 }
 
+
+// Im not quite sure if this is enough to destroy this
+Active_rectangle::~Active_rectangle() {}
+// The real solution would ofc be smart_pointers but I'll think about that later
+
+
 void Active_rectangle::draw(sf::RenderWindow *window) const {
     window->draw(square_visual);
 }

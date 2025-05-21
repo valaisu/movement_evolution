@@ -8,7 +8,7 @@
 #include "objects/Shape.hpp"
 #include "objects/Passive_rectangle.hpp"
 #include "objects/Active_rectangle.hpp"
-
+#include "agents/Agent.hpp"
 
 class Game {
 public:
@@ -16,6 +16,7 @@ public:
 
     sf::RenderWindow window;
     void add_body(Shape *shape);
+    void add_agent(Agent *agent);
     b2WorldId& get_world_id();
 
     float get_visual_scaling_factor();
@@ -32,6 +33,7 @@ private:
     const float window_h;
     const float visual_scaling_factor;
     std::vector<Shape*> shapes;
+    std::vector<Agent*> agents;    
 };
 
 

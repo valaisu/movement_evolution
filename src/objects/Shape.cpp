@@ -33,4 +33,4 @@ b2BodyId Shape::get_body_id() {
     return bodyId;
 }
 
-Shape::~Shape() {}
+//Shape::~Shape() {}

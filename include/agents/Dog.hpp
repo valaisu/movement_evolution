@@ -17,12 +17,13 @@
 
 class Dog : public Agent{
 public:
-    Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length, float body_length, float leg_radius, float body_radius, float visual_scaling_factor, Game *game, std::vector<Shape*> *shapes);
+    Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length, float body_length, float leg_radius, float body_radius, float visual_scaling_factor, Game *game);
     ~Dog() override;
     
     void update(float time_step) override;
+    void draw(sf::RenderWindow *window) const override;
 private:
-    // this is a bubblegum solution
+    // this is a bit of a bubblegum solution
     Active_rectangle* dog_body;
     Active_rectangle* back_leg_upper;
     Active_rectangle* back_leg_lower;

@@ -26,6 +26,10 @@ void Game::add_body(Shape *shape) {
     shapes.push_back(shape);
 }
 
+void Game::add_agent(Agent *agent) {
+    agents.push_back(agent);
+}
+
 b2WorldId& Game::get_world_id() {
     return worldId;
 }
@@ -39,12 +43,18 @@ void Game::progress_simulation() {
     for (auto obj : shapes) {
         obj->update(visual_scaling_factor);
     }
+    for (auto obj : agents) {
+        obj->update(visual_scaling_factor);
+    }
 }
 
 void Game::draw() {
     window.clear(sf::Color::White);
     //std::cout<<"here"<<std::endl;
     for (auto obj : shapes) {
+        obj->draw(&window);
+    }    
+    for (auto obj : agents) {
         obj->draw(&window);
     }
 }

@@ -22,7 +22,7 @@ public:
     b2BodyId get_body_id();
     
 protected:
-    virtual ~Shape();
+    virtual ~Shape() = default;
     Shape(b2Vec2 initial_position);
 
     b2Vec2 position;

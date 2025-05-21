@@ -69,8 +69,8 @@ int main() {
 
 
 
-    Dog* doge = new Dog((b2Vec2){16.5f, 13.6f}, 1.0f, 1.0f, 2.5f, 0.3f, 0.4f, visual_scaling_factor, &game, &shapes);
-
+    Dog* doge = new Dog((b2Vec2){16.5f, 13.6f}, 1.0f, 1.0f, 2.5f, 0.3f, 0.4f, visual_scaling_factor, &game);
+    game.add_agent(doge);
 
 /*
 
