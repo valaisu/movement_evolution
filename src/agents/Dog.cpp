@@ -44,7 +44,6 @@ Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length
     
 
     // Creating a dog seems to work
-    //dog_body = new Active_rectangle((b2Vec2){16.5f, 13.6f}, 3.0f, 0.4f, 0.5f, 1.0f, visual_scaling_factor, game->get_world_id());
     dog_body = new Active_capsule(center_3_back, center_3_front, body_radius, 0.3, 1.0, visual_scaling_factor, game->get_world_id());
 
     // BACK LEG
@@ -60,6 +59,18 @@ Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length
     b2Vec2 pivot_back_leg = center_2_back;
     back_leg_joint_def.localAnchorA = b2Body_GetLocalPoint(back_leg_upper->get_body_id(), pivot_back_leg);
     back_leg_joint_def.localAnchorB = b2Body_GetLocalPoint(back_leg_lower->get_body_id(), pivot_back_leg);
+    
+    // define angle limit
+    back_leg_joint_def.referenceAngle = ( // bodyB - bodyA
+        back_leg_lower->get_rotation().asRadians() -
+        back_leg_upper->get_rotation().asRadians()
+    );
+    // This defines the legs to turn in opposite direction as dogs, but 
+    // I think that way the task to move is easier
+    back_leg_joint_def.lowerAngle = -0.01 * B2_PI; // how much lower leg turn backwards
+    back_leg_joint_def.upperAngle = 0.9 * B2_PI; // how much lower leg turn forwards
+    back_leg_joint_def.enableLimit = true; // bruh, forgoring this bad :D
+
     // create the joint
     b2JointId back_leg_joint = b2CreateRevoluteJoint( game->get_world_id(), &back_leg_joint_def );
 
@@ -76,20 +87,42 @@ Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length
     b2Vec2 pivot_front_leg = center_2_front;
     front_leg_joint_def.localAnchorA = b2Body_GetLocalPoint(front_leg_upper->get_body_id(), pivot_front_leg);
     front_leg_joint_def.localAnchorB = b2Body_GetLocalPoint(front_leg_lower->get_body_id(), pivot_front_leg);
+    
+    // define angle limit
+    front_leg_joint_def.referenceAngle = ( // bodyB - bodyA
+        front_leg_lower->get_rotation().asRadians() -
+        front_leg_upper->get_rotation().asRadians()
+    );
+    front_leg_joint_def.lowerAngle = -0.01 * B2_PI;
+    front_leg_joint_def.upperAngle = 0.9 * B2_PI;
+    front_leg_joint_def.enableLimit = true; 
+    
     // create the joint
     b2JointId front_leg_joint = b2CreateRevoluteJoint( game->get_world_id(), &front_leg_joint_def );
 
 
-    // Connect legs to body
+    // CONNECT LEGS TO BODY
     // Front
     b2RevoluteJointDef front_leg_body_joint_def = b2DefaultRevoluteJointDef();
-    front_leg_body_joint_def.bodyIdA = front_leg_upper->get_body_id(); // TODO: this indicates problems, fix
+    front_leg_body_joint_def.bodyIdA = front_leg_upper->get_body_id();
     front_leg_body_joint_def.bodyIdB = dog_body->get_body_id();
     b2Vec2 pivot_front_leg_body = center_3_front;
     front_leg_body_joint_def.localAnchorA = b2Body_GetLocalPoint(front_leg_upper->get_body_id(), pivot_front_leg_body);
     front_leg_body_joint_def.localAnchorB = b2Body_GetLocalPoint(dog_body->get_body_id(), pivot_front_leg_body);
+    
+    // define angle limit
+    front_leg_body_joint_def.referenceAngle = ( // bodyB - bodyA
+        dog_body->get_rotation().asRadians() -
+        front_leg_upper->get_rotation().asRadians()
+    );
+    front_leg_body_joint_def.lowerAngle = -0.4 * B2_PI; // how much leg turns back
+    front_leg_body_joint_def.upperAngle = 0.5 * B2_PI; // how much leg turns front
+    front_leg_body_joint_def.enableLimit = true; 
+    
     // create the joint
     b2JointId front_leg_body_joint = b2CreateRevoluteJoint( game->get_world_id(), &front_leg_body_joint_def );
+    
+
     // Back
     b2RevoluteJointDef back_leg_body_joint_def = b2DefaultRevoluteJointDef();
     back_leg_body_joint_def.bodyIdA = back_leg_upper->get_body_id();
@@ -97,6 +130,15 @@ Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length
     b2Vec2 pivot_back_leg_body = center_3_back;
     back_leg_body_joint_def.localAnchorA = b2Body_GetLocalPoint(back_leg_upper->get_body_id(), pivot_back_leg_body);
     back_leg_body_joint_def.localAnchorB = b2Body_GetLocalPoint(dog_body->get_body_id(), pivot_back_leg_body);
+    
+    back_leg_body_joint_def.referenceAngle = ( // bodyB - bodyA
+        dog_body->get_rotation().asRadians() -
+        back_leg_upper->get_rotation().asRadians()
+    );
+    back_leg_body_joint_def.lowerAngle = -0.4 * B2_PI; // how much leg turns back
+    back_leg_body_joint_def.upperAngle = 0.5 * B2_PI; // how much leg turns front
+    back_leg_body_joint_def.enableLimit = true; 
+
     // create the joint
     b2JointId back_leg_body_joint = b2CreateRevoluteJoint( game->get_world_id(), &back_leg_body_joint_def );
 
@@ -108,7 +150,6 @@ Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length
     body_parts.push_back(front_leg_lower);
 
     // TODO: 
-    // add constraints to the joints
     // add motors to the joints
     // keybinds for moving the motors
     // at some point: dont store stuff in game and shapes if possible, 
