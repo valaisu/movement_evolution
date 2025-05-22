@@ -26,7 +26,11 @@ centers in the capsule
 Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length, float body_length, float leg_radius, float body_radius, float visual_scaling_factor, Game *game) :
     Agent(initial_position)
 {
-    // temporary variables to make stuff easier
+    // TODO: control these wo magic values at some point
+    motor_speed = 0.3 * B2_PI;
+    motor_torque = 10.0f;
+
+    // temporary variables to make stuff simpler
     // l = low, v = vertical, u = up, h = horizontal, b = back, f = front
     b2Vec2 radius_vertical_leg = {0.0f, leg_radius};
     b2Vec2 leg_low_height = {0.0f, lower_leg_length};
@@ -71,6 +75,14 @@ Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length
     back_leg_joint_def.upperAngle = 0.9 * B2_PI; // how much lower leg turn forwards
     back_leg_joint_def.enableLimit = true; // bruh, forgoring this bad :D
 
+    // Add motors
+    // ok so this is apparently the target speed of the motor, and to control
+    // the agent, we just edit it with
+    // b2RevoluteJoint_SetMotorSpeed(motor_joint, speed);
+    back_leg_joint_def.motorSpeed = 0 * B2_PI; 
+    back_leg_joint_def.maxMotorTorque = 10.0f; // is this a lot ro little, dunno
+    back_leg_joint_def.enableMotor = true;
+
     // create the joint
     b2JointId back_leg_joint = b2CreateRevoluteJoint( game->get_world_id(), &back_leg_joint_def );
 
@@ -96,6 +108,11 @@ Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length
     front_leg_joint_def.lowerAngle = -0.01 * B2_PI;
     front_leg_joint_def.upperAngle = 0.9 * B2_PI;
     front_leg_joint_def.enableLimit = true; 
+
+    // Add the motors
+    front_leg_joint_def.motorSpeed = 0 * B2_PI; 
+    front_leg_joint_def.maxMotorTorque = 10.0f; // is this a lot ro little, dunno
+    front_leg_joint_def.enableMotor = true;
     
     // create the joint
     b2JointId front_leg_joint = b2CreateRevoluteJoint( game->get_world_id(), &front_leg_joint_def );
@@ -119,6 +136,11 @@ Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length
     front_leg_body_joint_def.upperAngle = 0.5 * B2_PI; // how much leg turns front
     front_leg_body_joint_def.enableLimit = true; 
     
+    // Add the motors
+    front_leg_body_joint_def.motorSpeed = 0 * B2_PI; 
+    front_leg_body_joint_def.maxMotorTorque = 10.0f; // is this a lot ro little, dunno
+    front_leg_body_joint_def.enableMotor = true;
+    
     // create the joint
     b2JointId front_leg_body_joint = b2CreateRevoluteJoint( game->get_world_id(), &front_leg_body_joint_def );
     
@@ -139,6 +161,11 @@ Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length
     back_leg_body_joint_def.upperAngle = 0.5 * B2_PI; // how much leg turns front
     back_leg_body_joint_def.enableLimit = true; 
 
+    // Add the motors
+    back_leg_body_joint_def.motorSpeed = 0 * B2_PI; 
+    back_leg_body_joint_def.maxMotorTorque = 10.0f; // is this a lot ro little, dunno
+    back_leg_body_joint_def.enableMotor = true;
+
     // create the joint
     b2JointId back_leg_body_joint = b2CreateRevoluteJoint( game->get_world_id(), &back_leg_body_joint_def );
 
@@ -149,8 +176,12 @@ Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length
     body_parts.push_back(front_leg_upper);
     body_parts.push_back(front_leg_lower);
 
+    // joints ordered left to right, up to down
+    joints.push_back(&back_leg_body_joint);
+    joints.push_back(&front_leg_body_joint);
+    joints.push_back(&back_leg_joint);
+    joints.push_back(&front_leg_joint);
     // TODO: 
-    // add motors to the joints
     // keybinds for moving the motors
     // at some point: dont store stuff in game and shapes if possible, 
     //  requires editing the games update function as well as some 
@@ -178,7 +209,10 @@ void Dog::draw(sf::RenderWindow *window) const {
     }
 }
 
-
+void Dog::control_leg(int leg_ind, bool pos_dir) {
+    float dir = 1.0 ? pos_dir : -1.0;
+    b2RevoluteJoint_SetMotorSpeed(*joints[leg_ind], dir*motor_speed);
+}
 
 
 
