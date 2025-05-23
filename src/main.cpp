@@ -21,7 +21,7 @@ int main() {
     const float world_size_y_meters = 20;
     const float visual_scaling_factor = 30;
     const float fps = 60;
-    const float gravity = 9.81f;
+    const float gravity = 0.0981f;
 
     Game game(
         world_size_x_meters * visual_scaling_factor, 
@@ -50,22 +50,22 @@ int main() {
 
     // lets try to create a simple pendulum
     // create 2 bodies
-    Passive_rectangle pendulum_base((b2Vec2){15.0f, 10.0f}, 1.0f, 1.0f, 0.3f, 1.0f, visual_scaling_factor, game.get_world_id());
-    game.add_body(&pendulum_base);
-
-    Active_rectangle* pendulum = new Active_rectangle((b2Vec2){23.0f, 10.0f}, 0.4f, 0.4f, 0.3f, 1.0f, visual_scaling_factor, game.get_world_id());
-    shapes.push_back(pendulum);
-    game.add_body(pendulum);
-    
-    // try to connect them
-    b2Vec2 pivot = {15.0f, 10.0f};
-    b2RevoluteJointDef jointDef = b2DefaultRevoluteJointDef();
-    jointDef.bodyIdA = pendulum_base.get_body_id();
-    jointDef.bodyIdB = pendulum->get_body_id();
-    jointDef.localAnchorA = b2Body_GetLocalPoint(pendulum_base.get_body_id(), pivot);
-    jointDef.localAnchorB = b2Body_GetLocalPoint(pendulum->get_body_id(), pivot);
-
-    b2JointId m_jointId1 = b2CreateRevoluteJoint( game.get_world_id(), &jointDef );
+//    Passive_rectangle pendulum_base((b2Vec2){15.0f, 10.0f}, 1.0f, 1.0f, 0.3f, 1.0f, visual_scaling_factor, game.get_world_id());
+//    game.add_body(&pendulum_base);
+//
+//    Active_rectangle* pendulum = new Active_rectangle((b2Vec2){23.0f, 10.0f}, 0.4f, 0.4f, 0.3f, 1.0f, visual_scaling_factor, game.get_world_id());
+//    shapes.push_back(pendulum);
+//    game.add_body(pendulum);
+//    
+//    // try to connect them
+//    b2Vec2 pivot = {15.0f, 10.0f};
+//    b2RevoluteJointDef jointDef = b2DefaultRevoluteJointDef();
+//    jointDef.bodyIdA = pendulum_base.get_body_id();
+//    jointDef.bodyIdB = pendulum->get_body_id();
+//    jointDef.localAnchorA = b2Body_GetLocalPoint(pendulum_base.get_body_id(), pivot);
+//    jointDef.localAnchorB = b2Body_GetLocalPoint(pendulum->get_body_id(), pivot);
+//
+//    b2JointId m_jointId1 = b2CreateRevoluteJoint( game.get_world_id(), &jointDef );
 
 
 
@@ -130,6 +130,81 @@ int main() {
             // "close requested" event: we close the window
             if (event->is<sf::Event::Closed>())
                 game.window.close();
+            
+            // key presses
+            //else if (event->is<sf::Event::KeyPressed>()) {
+            else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+
+                switch (keyPressed->code) { 
+                    // back leg
+                    // lower part
+                    case sf::Keyboard::Key::A:
+                        doge->move_leg(2, false);
+                        break;
+                    case sf::Keyboard::Key::D:
+                        doge->move_leg(2, true);   
+                        break;
+                    // upper part                
+                    case sf::Keyboard::Key::W:
+                        doge->move_leg(0, false);
+                        break;
+                    case sf::Keyboard::Key::S:
+                        doge->move_leg(0, true);
+                        break;
+                    
+                    // front leg
+                    // lower part
+                    case sf::Keyboard::Key::J:
+                        doge->move_leg(3, false);
+                        break;
+                    case sf::Keyboard::Key::L:
+                        doge->move_leg(3, true);   
+                        break;
+                    // upper part                
+                    case sf::Keyboard::Key::I:
+                        doge->move_leg(1, false);
+                        break;
+                    case sf::Keyboard::Key::K:
+                        doge->move_leg(1, true);
+                        break;
+                }
+            }
+            // key releases
+            else if (const auto* keyReleased = event->getIf<sf::Event::KeyReleased>()) {
+                switch (keyReleased->code) { 
+                    // back leg
+                    // lower part
+                    case sf::Keyboard::Key::A:
+                        doge->release_leg(2);
+                        break;
+                    case sf::Keyboard::Key::D:
+                        doge->release_leg(2);    
+                        break;
+                    // upper part                
+                    case sf::Keyboard::Key::W:
+                        doge->release_leg(0);
+                        break;
+                    case sf::Keyboard::Key::S:
+                        doge->release_leg(0);
+                        break;
+                    
+                    // front leg
+                    // lower part
+                    case sf::Keyboard::Key::J:
+                        doge->release_leg(3);
+                        break;
+                    case sf::Keyboard::Key::L:
+                        doge->release_leg(3);   
+                        break;
+                    // upper part                
+                    case sf::Keyboard::Key::I:
+                        doge->release_leg(1);
+                        break;
+                    case sf::Keyboard::Key::K:
+                        doge->release_leg(1);
+                        break;
+                }
+            }
         }
         game.progress_simulation();
         game.draw();

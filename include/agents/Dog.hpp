@@ -22,7 +22,8 @@ public:
     
     void update(float time_step) override;
     void draw(sf::RenderWindow *window) const override;
-    void control_leg(int leg_ind, bool pos_dir);
+    void move_leg(int leg_ind, bool pos_dir);
+    void release_leg(int leg_ind);
 private:
     // this is a bit of a bubblegum solution
     Active_capsule* dog_body;
@@ -33,7 +34,7 @@ private:
     // also TODO: remove these in deconstructor
     // body_parts;
     // location
-    std::vector<b2JointId*> joints;
+    std::vector<b2JointId> joints;
     float motor_speed;
     float motor_torque;
 }; 

@@ -28,7 +28,7 @@ Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length
 {
     // TODO: control these wo magic values at some point
     motor_speed = 0.3 * B2_PI;
-    motor_torque = 10.0f;
+    motor_torque = 300.0f;
 
     // temporary variables to make stuff simpler
     // l = low, v = vertical, u = up, h = horizontal, b = back, f = front
@@ -80,7 +80,7 @@ Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length
     // the agent, we just edit it with
     // b2RevoluteJoint_SetMotorSpeed(motor_joint, speed);
     back_leg_joint_def.motorSpeed = 0 * B2_PI; 
-    back_leg_joint_def.maxMotorTorque = 10.0f; // is this a lot ro little, dunno
+    back_leg_joint_def.maxMotorTorque = motor_torque; // is this a lot ro little, dunno
     back_leg_joint_def.enableMotor = true;
 
     // create the joint
@@ -111,7 +111,7 @@ Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length
 
     // Add the motors
     front_leg_joint_def.motorSpeed = 0 * B2_PI; 
-    front_leg_joint_def.maxMotorTorque = 10.0f; // is this a lot ro little, dunno
+    front_leg_joint_def.maxMotorTorque = motor_torque; // is this a lot ro little, dunno
     front_leg_joint_def.enableMotor = true;
     
     // create the joint
@@ -138,7 +138,7 @@ Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length
     
     // Add the motors
     front_leg_body_joint_def.motorSpeed = 0 * B2_PI; 
-    front_leg_body_joint_def.maxMotorTorque = 10.0f; // is this a lot ro little, dunno
+    front_leg_body_joint_def.maxMotorTorque = motor_torque; // is this a lot ro little, dunno
     front_leg_body_joint_def.enableMotor = true;
     
     // create the joint
@@ -163,7 +163,7 @@ Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length
 
     // Add the motors
     back_leg_body_joint_def.motorSpeed = 0 * B2_PI; 
-    back_leg_body_joint_def.maxMotorTorque = 10.0f; // is this a lot ro little, dunno
+    back_leg_body_joint_def.maxMotorTorque = motor_torque; // is this a lot ro little, dunno
     back_leg_body_joint_def.enableMotor = true;
 
     // create the joint
@@ -177,15 +177,16 @@ Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length
     body_parts.push_back(front_leg_lower);
 
     // joints ordered left to right, up to down
-    joints.push_back(&back_leg_body_joint);
-    joints.push_back(&front_leg_body_joint);
-    joints.push_back(&back_leg_joint);
-    joints.push_back(&front_leg_joint);
+    joints.push_back(back_leg_body_joint);
+    joints.push_back(front_leg_body_joint);
+    joints.push_back(back_leg_joint);
+    joints.push_back(front_leg_joint);
     // TODO: 
     // keybinds for moving the motors
     // at some point: dont store stuff in game and shapes if possible, 
     //  requires editing the games update function as well as some 
     //  other things
+    std::cout << joints.size() << std::endl;
 }
 
 Dog::~Dog() {
@@ -209,9 +210,17 @@ void Dog::draw(sf::RenderWindow *window) const {
     }
 }
 
-void Dog::control_leg(int leg_ind, bool pos_dir) {
-    float dir = 1.0 ? pos_dir : -1.0;
-    b2RevoluteJoint_SetMotorSpeed(*joints[leg_ind], dir*motor_speed);
+void Dog::move_leg(int leg_ind, bool pos_dir) {
+    std::cout << "Moving joint " << leg_ind << std::endl;
+    float dir = pos_dir ? 1.0f : -1.0f;
+    b2RevoluteJoint_SetMotorSpeed(joints[leg_ind], dir*motor_speed);
+    b2RevoluteJoint_SetMaxMotorTorque(joints[leg_ind], motor_torque);
+}
+
+void Dog::release_leg(int leg_ind) {
+    std::cout << "release" << std::endl;
+    b2RevoluteJoint_SetMotorSpeed(joints[leg_ind], 0.0f);
+    b2RevoluteJoint_SetMaxMotorTorque(joints[leg_ind], 0.0f);
 }
 
 
