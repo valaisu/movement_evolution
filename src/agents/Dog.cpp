@@ -181,11 +181,7 @@ Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length
     joints.push_back(front_leg_body_joint);
     joints.push_back(back_leg_joint);
     joints.push_back(front_leg_joint);
-    // TODO: 
-    // keybinds for moving the motors
-    // at some point: dont store stuff in game and shapes if possible, 
-    //  requires editing the games update function as well as some 
-    //  other things
+
     std::cout << joints.size() << std::endl;
 }
 
@@ -211,14 +207,14 @@ void Dog::draw(sf::RenderWindow *window) const {
 }
 
 void Dog::move_leg(int leg_ind, bool pos_dir) {
-    std::cout << "Moving joint " << leg_ind << std::endl;
+    //std::cout << "Moving joint " << leg_ind << std::endl;
     float dir = pos_dir ? 1.0f : -1.0f;
     b2RevoluteJoint_SetMotorSpeed(joints[leg_ind], dir*motor_speed);
     b2RevoluteJoint_SetMaxMotorTorque(joints[leg_ind], motor_torque);
 }
 
 void Dog::release_leg(int leg_ind) {
-    std::cout << "release" << std::endl;
+    //std::cout << "release" << std::endl;
     b2RevoluteJoint_SetMotorSpeed(joints[leg_ind], 0.0f);
     b2RevoluteJoint_SetMaxMotorTorque(joints[leg_ind], 0.0f);
 }
