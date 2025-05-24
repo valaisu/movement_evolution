@@ -1,6 +1,7 @@
 #include <box2d/box2d.h>
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <chrono>
 
 #include "agents/Agent.hpp"
 #include "agents/Dog.hpp"
@@ -8,6 +9,7 @@
 #include "objects/Active_rectangle.hpp"
 #include "objects/Active_capsule.hpp"
 #include "Game.hpp"
+
 
 
 /* TEMPORARY THOUGHTS
@@ -27,7 +29,7 @@ Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length
     Agent(initial_position)
 {
     // TODO: control these wo magic values at some point
-    motor_speed = 0.3 * B2_PI;
+    motor_speed = 0.5 * B2_PI;
     motor_torque = 300.0f;
 
     // temporary variables to make stuff simpler
@@ -208,19 +210,52 @@ void Dog::draw(sf::RenderWindow *window) const {
 
 void Dog::move_leg(int leg_ind, bool pos_dir) {
     //std::cout << "Moving joint " << leg_ind << std::endl;
+
+    if (!b2Joint_IsValid(joints[leg_ind])) {
+        std::cout << "Joint " << leg_ind << " is invalid!" << std::endl;
+        return;
+    }
+
+    // The legs can get stuck if we dont wake them up
+    for (auto* part : body_parts) {
+        if (part) {
+            b2Body_SetAwake(part->get_body_id(), true);
+        }
+    }
+
     float dir = pos_dir ? 1.0f : -1.0f;
     b2RevoluteJoint_SetMotorSpeed(joints[leg_ind], dir*motor_speed);
     b2RevoluteJoint_SetMaxMotorTorque(joints[leg_ind], motor_torque);
+    //auto end = std::chrono::system_clock::now();
+    //std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+    //std::cout << "move " << std::ctime(&end_time);
 }
 
 void Dog::release_leg(int leg_ind) {
     //std::cout << "release" << std::endl;
     b2RevoluteJoint_SetMotorSpeed(joints[leg_ind], 0.0f);
     b2RevoluteJoint_SetMaxMotorTorque(joints[leg_ind], 0.0f);
+
+    //auto end = std::chrono::system_clock::now();
+    //std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+    //std::cout << "release " << std::ctime(&end_time);
 }
 
 
-
+void Dog::debug() {
+    
+    // check body states
+    for (int i = 0; i < body_parts.size(); i++) {
+        if (body_parts[i]) {
+            b2BodyId bodyId = body_parts[i]->get_body_id();
+            if (B2_IS_NON_NULL(bodyId)) {
+                bool awake = b2Body_IsAwake(bodyId);
+                bool enabled = b2Body_IsEnabled(bodyId);
+                std::cout << "Body " << i << ": Awake=" << awake << ", Enabled=" << enabled << std::endl;
+            }
+        }
+    }
+}
 
 
 

@@ -24,6 +24,7 @@ public:
     void draw(sf::RenderWindow *window) const override;
     void move_leg(int leg_ind, bool pos_dir);
     void release_leg(int leg_ind);
+    void debug();
 private:
     // this is a bit of a bubblegum solution
     Active_capsule* dog_body;

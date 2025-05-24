@@ -119,7 +119,7 @@ int main() {
 
 
     sf::Clock clock;
-    float timeStep = 1.0f / 60.0f;
+    float timeStep = 1.0f / 90.0f;
     float accumulator = 0.0f;
 
     while (game.window.isOpen())
@@ -171,6 +171,11 @@ int main() {
             doge->move_leg(1, true);
         } else {
             doge->release_leg(1);
+        }
+
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Y)) {
+            doge->debug();
         }
         
         // Fixed timestep physics simulation
