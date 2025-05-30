@@ -55,8 +55,8 @@ Phase 1: Toward re-enforcement learning
 
  - [ ] Create basic agents
     - [x] Dog
-    - [ ] Car
- - [ ] Follow agent with camera
+    - [x] Car
+ - [x] Follow agent with camera
  - [ ] Dynamic environment generation based on agent movement
  - [ ] Implement a simple re-enforcement learning algo
     - [ ] Which algorithm?

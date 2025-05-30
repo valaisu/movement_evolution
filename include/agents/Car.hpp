@@ -27,6 +27,7 @@ public:
     void move_reverse();
     void move_neutral();
     void debug();
+    sf::Vector2f get_location();
 private:
     // this is a bit of a bubblegum solution
     Active_rectangle* car_body;

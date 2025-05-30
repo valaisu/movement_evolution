@@ -22,7 +22,7 @@ public:
 
     float get_visual_scaling_factor();
     void progress_simulation();
-    void draw();
+    void draw(sf::Vector2f center);
     void display();
 
 private:

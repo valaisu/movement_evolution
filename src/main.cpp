@@ -197,14 +197,19 @@ int main() {
             doge->debug();
         }
         
+
+        // Center to car
+        sf::Vector2f loc_base = car->get_location();
+        sf::Vector2f up_correction = {0.0f, world_size_y_meters * -0.20f};
+        game.draw((loc_base+up_correction) * visual_scaling_factor);
+
+
         // Fixed timestep physics simulation
         while (accumulator >= timeStep) {
             game.progress_simulation();
             accumulator -= timeStep;
         }
         
-        // Render at full framerate
-        game.draw();
         game.display();
     }
 

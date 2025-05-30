@@ -48,8 +48,15 @@ void Game::progress_simulation() {
     }
 }
 
-void Game::draw() {
+void Game::draw(sf::Vector2f center) {
     window.clear(sf::Color::White);
+
+    // should move the camera
+    sf::View view = window.getDefaultView();
+    //std::cout << center.x << " " << center.y << std::endl;
+    view.setCenter(center);
+    window.setView(view);
+
     //std::cout<<"here"<<std::endl;
     for (auto obj : shapes) {
         obj->draw(&window);

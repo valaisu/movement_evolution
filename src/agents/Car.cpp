@@ -17,8 +17,8 @@ Car::Car(b2Vec2 initial_position, float car_width, float car_height, float wheel
     : Agent(initial_position) 
 {
     // TODO: define better
-    motor_torque = 10.0f;
-    motor_speed = 1.0f * B2_PI;
+    motor_torque = 100.0f;
+    motor_speed = 10.0f * B2_PI;
 
     // Initial position = where back wheel touches ground?
     b2Vec2 diff_wheel_b = {car_width * 1.0f/5.0f, -wheel_radius};
@@ -81,6 +81,11 @@ Car::Car(b2Vec2 initial_position, float car_width, float car_height, float wheel
 
 }
 
+sf::Vector2f Car::get_location() {
+    return car_body->get_position();
+}
+
+
 void Car::move_forward() {
     // wheels can also get stuck
     for (auto* wheel : body_parts) {
@@ -88,7 +93,7 @@ void Car::move_forward() {
             b2Body_SetAwake(wheel->get_body_id(), true);
         }
     }
-    
+
     for (auto joint : joints) {
         b2WheelJoint_SetMaxMotorTorque(joint, motor_torque);
         b2WheelJoint_SetMotorSpeed(joint, motor_speed);
