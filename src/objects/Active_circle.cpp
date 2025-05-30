@@ -17,8 +17,9 @@ Active_circle::Active_circle(b2Vec2 initial_position, float radius, float fricti
 
     // define physical characteristics
     b2Circle dynamic_circle;
-    dynamic_circle.center = initial_position;
+    dynamic_circle.center = {0.0f, 0.0f};
     dynamic_circle.radius = radius;
+
     shapeDef = b2DefaultShapeDef();
     shapeDef.density = 1.0f;
     shapeDef.material.friction = 0.3f;
