@@ -33,11 +33,11 @@ int main() {
 
     //std::vector<Active_rectangle*> active_bodies;
     std::vector<Shape*> shapes;
-    for(int i = 0; i < 10; i++) {
-        Active_rectangle* active_rectangle = new Active_rectangle((b2Vec2){10.0f - 0.1f*i, 10.0f + i}, 0.4f, 0.4f, 0.3f, 1.0f, visual_scaling_factor, game.get_world_id());
-        shapes.push_back(active_rectangle);
-        game.add_body(active_rectangle);
-    }
+    //for(int i = 0; i < 10; i++) {
+    //    Active_rectangle* active_rectangle = new Active_rectangle((b2Vec2){10.0f - 0.1f*i, 10.0f + i}, 0.4f, 0.4f, 0.3f, 1.0f, visual_scaling_factor, game.get_world_id());
+    //    shapes.push_back(active_rectangle);
+    //    game.add_body(active_rectangle);
+    //}
 
     //Active_rectangle* active_rectangle = new Active_rectangle((b2Vec2){6.0f, 6.0f}, 1.0f, 1.0f, 0.3f, 1.0f, visual_scaling_factor, game.get_world_id());
     //shapes.push_back(active_rectangle);
@@ -52,9 +52,9 @@ int main() {
     game.add_agent(car);
 
     // Try adding a capsule
-    Active_capsule* capsule = new Active_capsule((b2Vec2){12.0f, 12.0f}, (b2Vec2){11.0f, 11.0f}, 0.5f, 0.3f, 0.5f, visual_scaling_factor, game.get_world_id());
-    shapes.push_back(capsule);
-    game.add_body(capsule);
+    //Active_capsule* capsule = new Active_capsule((b2Vec2){12.0f, 12.0f}, (b2Vec2){11.0f, 11.0f}, 0.5f, 0.3f, 0.5f, visual_scaling_factor, game.get_world_id());
+    //shapes.push_back(capsule);
+    //game.add_body(capsule);
 
 
     // lets try to create a simple pendulum
@@ -180,6 +180,16 @@ int main() {
             doge->move_leg(1, true);
         } else {
             doge->release_leg(1);
+        }
+
+
+        // Car
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) {
+            car->move_reverse();
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) {
+            car->move_forward();
+        } else {
+            car->move_neutral();
         }
 
 

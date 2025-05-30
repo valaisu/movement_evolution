@@ -17,7 +17,8 @@ Car::Car(b2Vec2 initial_position, float car_width, float car_height, float wheel
     : Agent(initial_position) 
 {
     // TODO: define better
-    float max_torque = 10.0f;
+    motor_torque = 10.0f;
+    motor_speed = 1.0f * B2_PI;
 
     // Initial position = where back wheel touches ground?
     b2Vec2 diff_wheel_b = {car_width * 1.0f/5.0f, -wheel_radius};
@@ -42,8 +43,8 @@ Car::Car(b2Vec2 initial_position, float car_width, float car_height, float wheel
     jointDef_b.localAxisA = b2Body_GetLocalVector(jointDef_b.bodyIdA, axis);
 	jointDef_b.localAnchorA = b2Body_GetLocalPoint(jointDef_b.bodyIdA, pivot_b);
 	jointDef_b.localAnchorB = b2Body_GetLocalPoint(jointDef_b.bodyIdB, pivot_b);
-    jointDef_b.motorSpeed = 0.0f;
-    jointDef_b.maxMotorTorque = max_torque;
+    jointDef_b.motorSpeed = motor_speed;
+    jointDef_b.maxMotorTorque = 0.0f;
     jointDef_b.enableMotor = true;
     jointDef_b.hertz = 5.0f; // value from some example
     jointDef_b.dampingRatio = 0.7f;
@@ -63,8 +64,8 @@ Car::Car(b2Vec2 initial_position, float car_width, float car_height, float wheel
     jointDef_f.localAxisA = b2Body_GetLocalVector(jointDef_f.bodyIdA, axis);
 	jointDef_f.localAnchorA = b2Body_GetLocalPoint(jointDef_f.bodyIdA, pivot_f);
 	jointDef_f.localAnchorB = b2Body_GetLocalPoint(jointDef_f.bodyIdB, pivot_f);
-    jointDef_f.motorSpeed = 0.0f;
-    jointDef_f.maxMotorTorque = max_torque;
+    jointDef_f.motorSpeed = motor_speed;
+    jointDef_f.maxMotorTorque = 0.0f;
     jointDef_f.enableMotor = true;
     jointDef_f.hertz = 5.0f; // value from some example
     jointDef_f.dampingRatio = 0.7f;
@@ -81,14 +82,40 @@ Car::Car(b2Vec2 initial_position, float car_width, float car_height, float wheel
 }
 
 void Car::move_forward() {
-
+    // wheels can also get stuck
+    for (auto* wheel : body_parts) {
+        if (wheel) {
+            b2Body_SetAwake(wheel->get_body_id(), true);
+        }
+    }
+    
+    for (auto joint : joints) {
+        b2WheelJoint_SetMaxMotorTorque(joint, motor_torque);
+        b2WheelJoint_SetMotorSpeed(joint, motor_speed);
+    }
 }
 
 
 void Car::move_reverse() {
+    // wheels can also get stuck
+    for (auto* wheel : body_parts) {
+        if (wheel) {
+            b2Body_SetAwake(wheel->get_body_id(), true);
+        }
+    }
 
+    for (auto joint : joints) {
+        b2WheelJoint_SetMaxMotorTorque(joint, motor_torque);
+        b2WheelJoint_SetMotorSpeed(joint, -motor_speed);
+    }
 }
 
+void Car::move_neutral() {
+    for (auto joint : joints) {
+        b2WheelJoint_SetMaxMotorTorque(joint, 0.0f);
+        b2WheelJoint_SetMotorSpeed(joint, 0.0f);
+    }
+}
 
 
 void Car::update(float visual_scaling_factor) {
