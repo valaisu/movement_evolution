@@ -12,6 +12,7 @@
 #include "objects/Active_circle.hpp"
 #include "objects/Active_capsule.hpp"
 #include "agents/Dog.hpp"
+#include "agents/Car.hpp"
 
 
 int main() {
@@ -38,9 +39,17 @@ int main() {
         game.add_body(active_rectangle);
     }
 
-    //Active_rectangle* active_rectangle = new Active_rectangle((b2Vec2){12.0f, 12.0f}, 2.0f, 2.0f, 0.3f, 1.0f, visual_scaling_factor, game.get_world_id());
+    //Active_rectangle* active_rectangle = new Active_rectangle((b2Vec2){6.0f, 6.0f}, 1.0f, 1.0f, 0.3f, 1.0f, visual_scaling_factor, game.get_world_id());
     //shapes.push_back(active_rectangle);
     //game.add_body(active_rectangle);
+
+    //Active_circle* circle = new Active_circle((b2Vec2){6.0f, 6.0f}, 1.0f, 0.3f, 1.0f, visual_scaling_factor, game.get_world_id());
+    //shapes.push_back(circle);
+    //game.add_body(circle);
+    
+    // try car
+    Car* car = new Car((b2Vec2){8.0f, 4.0f}, 3.0f, 1.2f, 0.4f, visual_scaling_factor, &game);
+    game.add_agent(car);
 
     // Try adding a capsule
     Active_capsule* capsule = new Active_capsule((b2Vec2){12.0f, 12.0f}, (b2Vec2){11.0f, 11.0f}, 0.5f, 0.3f, 0.5f, visual_scaling_factor, game.get_world_id());

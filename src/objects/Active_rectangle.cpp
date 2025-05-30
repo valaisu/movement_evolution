@@ -15,6 +15,7 @@ Active_rectangle::Active_rectangle(b2Vec2 initial_position, float width, float h
     bodyDef.type = b2_dynamicBody;
     bodyDef.position = initial_position;
     bodyId = b2CreateBody(worldId, &bodyDef);
+    
     b2Polygon dynamicBox = b2MakeBox(width/2, height/2); // i think this is only temporarily needed
     shapeDef = b2DefaultShapeDef();
     shapeDef.density = 1.0f;
