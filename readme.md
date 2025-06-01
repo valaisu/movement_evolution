@@ -57,7 +57,7 @@ Phase 1: Toward re-enforcement learning
     - [x] Dog
     - [x] Car
  - [x] Follow agent with camera
- - [ ] Dynamic environment generation based on agent movement
+ - [x] Dynamic environment generation based on agent movement
  - [ ] Implement a simple re-enforcement learning algo
     - [ ] Which algorithm?
     - [ ] Probably requires adding functionalities to agents

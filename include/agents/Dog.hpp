@@ -25,6 +25,7 @@ public:
     void move_leg(int leg_ind, bool pos_dir);
     void release_leg(int leg_ind);
     void debug();
+    sf::Vector2f get_location();
 private:
     // this is a bit of a bubblegum solution
     Active_capsule* dog_body;

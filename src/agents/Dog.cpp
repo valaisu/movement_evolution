@@ -187,6 +187,11 @@ Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length
     std::cout << joints.size() << std::endl;
 }
 
+sf::Vector2f Dog::get_location() {
+    return dog_body->get_position();
+}
+
+
 Dog::~Dog() {
     // Manually destroy body parts
     delete dog_body;

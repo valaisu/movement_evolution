@@ -28,8 +28,8 @@ int main() {
         world_size_x_meters * visual_scaling_factor, 
         world_size_y_meters * visual_scaling_factor, 
         fps, gravity, visual_scaling_factor);
-    Passive_rectangle ground((b2Vec2){15.0f, 19.5f}, 22.0f, 1.0f, 0.2f, 1.0f, visual_scaling_factor, game.get_world_id());
-    game.add_body(&ground);
+    //Passive_rectangle ground((b2Vec2){15.0f, 19.5f}, 22.0f, 1.0f, 0.2f, 1.0f, visual_scaling_factor, game.get_world_id());
+    //game.add_body(&ground);
 
     //std::vector<Active_rectangle*> active_bodies;
     std::vector<Shape*> shapes;
@@ -204,10 +204,17 @@ int main() {
         game.draw((loc_base+up_correction) * visual_scaling_factor);
 
 
+        if (game.terrain_edge_visible(loc_base.x, 2.0f)) {
+            Passive_rectangle* new_ground = new Passive_rectangle(game.generate_terrain(10.0f, 18.0f));
+            shapes.push_back(new_ground);
+            game.add_body(new_ground);
+        }
+
         // Fixed timestep physics simulation
         while (accumulator >= timeStep) {
             game.progress_simulation();
             accumulator -= timeStep;
+            //std::cout << loc_base.x << " " << loc_base.y << std::endl;
         }
         
         game.display();

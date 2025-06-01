@@ -22,6 +22,8 @@ public:
 
     float get_visual_scaling_factor();
     void progress_simulation();
+    Passive_rectangle generate_terrain(float width, float ground_level);
+    bool terrain_edge_visible(float screen_center_x, float margin);
     void draw(sf::Vector2f center);
     void display();
 
@@ -33,6 +35,7 @@ private:
     const float window_w;
     const float window_h;
     const float visual_scaling_factor;
+    float world_generation_edge;
     std::vector<Shape*> shapes;
     std::vector<Agent*> agents;    
 };

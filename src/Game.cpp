@@ -38,6 +38,19 @@ float Game::get_visual_scaling_factor() {
     return visual_scaling_factor;
 }
 
+// It would probs be better to do this with a smart pointer, but lets not focus on that now
+Passive_rectangle Game::generate_terrain(float width, float ground_level) {
+    Passive_rectangle ground((b2Vec2){world_generation_edge+width/2.0f, ground_level}, width, 1.0f, 0.3f, 1.0f, visual_scaling_factor, get_world_id());
+    world_generation_edge += width;
+    //std::cout << "Edge now at x=" << world_generation_edge << std::endl;
+    return ground;
+}
+
+bool Game::terrain_edge_visible(float screen_center_x, float margin) {
+    //std::cout << "Agent x=" << screen_center_x + margin + window_w/(2.0f*visual_scaling_factor) << std::endl;
+    return screen_center_x + margin + window_w/(2.0f*visual_scaling_factor) > world_generation_edge;
+}
+
 void Game::progress_simulation() {
     b2World_Step(worldId, timestep, 4); // i dont think substep count needs to be controllable
     for (auto obj : shapes) {

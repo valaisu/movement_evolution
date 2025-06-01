@@ -29,7 +29,7 @@ Passive_rectangle::Passive_rectangle(b2Vec2 initial_position, float width, float
         sf::Vector2f(
             (initial_position.x)*visual_scaling_factor, 
             (initial_position.y)*visual_scaling_factor));
-    std::cout<< initial_position.x*visual_scaling_factor << " " << initial_position.y*visual_scaling_factor << std::endl;
+    //std::cout<< initial_position.x << " " << initial_position.y << std::endl;
 }
 
 void Passive_rectangle::draw(sf::RenderWindow *window) const {
