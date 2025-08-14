@@ -199,7 +199,7 @@ int main() {
         
 
         // Center to car
-        sf::Vector2f loc_base = car->get_location();
+        sf::Vector2f loc_base = doge->get_location();
         sf::Vector2f up_correction = {0.0f, world_size_y_meters * -0.20f};
         game.draw((loc_base+up_correction) * visual_scaling_factor);
 

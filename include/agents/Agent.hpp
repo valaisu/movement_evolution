@@ -18,6 +18,8 @@ class Agent{
 public:
     virtual void update(float time_step) = 0;
     virtual void draw(sf::RenderWindow *window) const = 0;
+    // TODO: reward function
+    
 protected:
     Agent(b2Vec2 initial_position);
     virtual ~Agent();

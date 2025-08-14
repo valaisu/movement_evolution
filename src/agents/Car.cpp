@@ -136,6 +136,13 @@ void Car::draw(sf::RenderWindow *window) const {
 }
 
 
+std::vector<float> Car::get_body_part_angles() {
+    // return the angle of the main body essentially
+    std::vector<float> parts = {car_body->get_rotation().asRadians()};
+    return parts;
+}
+
+
 
 Car::~Car() {
     delete car_body;

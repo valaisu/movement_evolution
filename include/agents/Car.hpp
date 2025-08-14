@@ -28,6 +28,8 @@ public:
     void move_neutral();
     void debug();
     sf::Vector2f get_location();
+
+    std::vector<float> get_body_part_angles();
 private:
     // this is a bit of a bubblegum solution
     Active_rectangle* car_body;
