@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <chrono>
+#include <queue>
 
 #include "agents/Agent.hpp"
 #include "agents/Dog.hpp"
@@ -185,6 +186,14 @@ Dog::Dog(b2Vec2 initial_position, float lower_leg_length, float upper_leg_length
     joints.push_back(front_leg_joint);
 
     std::cout << joints.size() << std::endl;
+
+    // init the prio que
+    float current_x = get_location().x;
+    for (int i = 0; i < 50; i++) {
+        prev_x_locs.push(current_x);
+    }
+
+    std::cout<<dog_body->get_rotation().asRadians()<<std::endl;
 }
 
 sf::Vector2f Dog::get_location() {
@@ -203,6 +212,17 @@ std::vector<float> Dog::get_body_part_angles() {
     return parts;
 }
 
+float Dog::reward() {
+    float reward = 0.0f;
+    // + score for moving forward
+    reward += get_location().x - prev_x_locs.top();
+    // - score for falling
+    float body_rot_rad = dog_body->get_rotation().asRadians();
+    if (body_rot_rad > B2_PI/2 || body_rot_rad < -B2_PI/2) {
+        reward -= 100.0f;
+    }
+    return reward;
+}
 
 Dog::~Dog() {
     // Manually destroy body parts
@@ -217,6 +237,8 @@ void Dog::update(float visual_scaling_factor) {
     for (auto obj : body_parts) {
         obj->update(visual_scaling_factor);
     }
+    prev_x_locs.pop();
+    prev_x_locs.push(get_location().x);
 }
 
 void Dog::draw(sf::RenderWindow *window) const {

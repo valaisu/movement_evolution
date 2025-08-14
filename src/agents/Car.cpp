@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <chrono>
+#include <queue>
 
 #include "agents/Agent.hpp"
 #include "agents/Car.hpp"
@@ -78,11 +79,27 @@ Car::Car(b2Vec2 initial_position, float car_width, float car_height, float wheel
     joints.push_back(rear_axle);
     joints.push_back(front_axle);
 
+    float current_x = get_location().x;
+    for (int i = 0; i < 50; i++) {
+        prev_x_locs.push(current_x);
+    }
 
 }
 
 sf::Vector2f Car::get_location() {
     return car_body->get_position();
+}
+
+float Car::reward() {
+    float reward = 0.0f;
+    // + score for moving forward
+    reward += get_location().x - prev_x_locs.top();
+    // - score for falling
+    float body_rot_rad = car_body->get_rotation().asRadians();
+    if (body_rot_rad > B2_PI/2 || body_rot_rad < -B2_PI/2) {
+        reward -= 100.0f;
+    }
+    return reward;
 }
 
 
@@ -127,6 +144,8 @@ void Car::update(float visual_scaling_factor) {
     for (auto obj : body_parts) {
         obj->update(visual_scaling_factor);
     }
+    prev_x_locs.pop();
+    prev_x_locs.push(get_location().x);
 }
 
 void Car::draw(sf::RenderWindow *window) const {

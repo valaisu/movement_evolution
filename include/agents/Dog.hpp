@@ -7,6 +7,7 @@
 #include <box2d/box2d.h>
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <queue>
 
 #include "agents/Agent.hpp"
 #include "objects/Shape.hpp"
@@ -28,6 +29,7 @@ public:
     sf::Vector2f get_location();
 
     std::vector<float> get_body_part_angles();
+    float reward(); // lets use velocity based reward functions
 
 private:
     // this is a bit of a bubblegum solution
@@ -42,6 +44,8 @@ private:
     std::vector<b2JointId> joints;
     float motor_speed;
     float motor_torque;
+    std::priority_queue<float> prev_x_locs;
+
 }; 
 
 
