@@ -30,7 +30,7 @@ public:
     void debug();
     sf::Vector2f get_location();
 
-    std::vector<float> get_body_part_angles();
+    std::vector<float> get_actor_state_repr();
     float reward(); // lets use velocity based reward functions
 
 private:

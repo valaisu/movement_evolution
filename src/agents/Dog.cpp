@@ -200,7 +200,7 @@ sf::Vector2f Dog::get_location() {
     return dog_body->get_position();
 }
 
-std::vector<float> Dog::get_body_part_angles() {
+std::vector<float> Dog::get_actor_state_repr() {
     // return the angle of the main body essentially
     std::vector<float> parts = {
         dog_body->get_rotation().asRadians(),
@@ -208,6 +208,7 @@ std::vector<float> Dog::get_body_part_angles() {
         back_leg_upper->get_rotation().asRadians(),
         front_leg_lower->get_rotation().asRadians(),
         front_leg_upper->get_rotation().asRadians(),
+        dog_body->get_position().y
     };
     return parts;
 }
