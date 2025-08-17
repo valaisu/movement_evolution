@@ -1,0 +1,16 @@
+Some ideas for the learning algorithm:
+
+- PPO, apparently popular
+- DQN, good for limited action space
+- DQN variants (address the issues of DQN)
+- Soft Actor-Critic, great for continuous control
+- TD3, great for continuous deterministic combo
+- DDPG, TD3 but simpler
+
+Difficulty order by Claude:
+    DQN
+    DDPG
+    PPO
+    TD3
+    DQN variants
+    SAC

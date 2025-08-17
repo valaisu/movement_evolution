@@ -1,0 +1,55 @@
+
+Classic Q-learning:
+    Construct a table (action, state) -> reward
+DQN approximates the Q-function with a neural network
+
+Action selection:
+if (random < epsilon)
+    explore
+else
+    exploit
+
+Experience buffer:
+save
+    (state, action, reward, next_state)
+
+Two networks:
+    Q-network: continuously updated
+    Target-network: copied from Q periodically
+        reason for periodic: stability
+
+training loop:
+1. Observe state
+2. Choose action
+3. Execute action
+4. Store in exp buffer
+5. Sample rand batch from buffer
+6. Compute target Q-vals w target nw
+7. Update main nw to minimize loss
+8. Periodically update target nw
+
+So the point is we want to train the Q-network to accurately
+predict what reward each action will get in the long run
+
+
+Target = reward + γ * max(Q_target(next_state)) 
+Loss = (Q_network(state, action) - Target)²
+
+
+TODO:
+def vector -> action
+Q and T networks
+control system for
+    sample action from Q
+    Feed action to agent
+    (update simulation?)
+    Save to buffer
+    sample from buffer
+    Calc loss
+
+
+
+
+
+
+
