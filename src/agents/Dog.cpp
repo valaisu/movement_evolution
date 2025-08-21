@@ -281,6 +281,19 @@ void Dog::release_leg(int leg_ind) {
     //std::cout << "release " << std::ctime(&end_time);
 }
 
+void Dog::control_movement(std::vector<int> move) {
+    for (int leg=0; leg<4; leg++) {
+        if (move[leg] == 1) {
+            move_leg(leg, true);
+        } else if (move[leg] == 0) {
+            release_leg(leg);
+        } else if (move[leg] == -1) {
+            move_leg(leg, false);
+        } else {
+            std::cout<<"Illegal movement"<<std::endl;
+        }
+    }
+}
 
 void Dog::debug() {
     

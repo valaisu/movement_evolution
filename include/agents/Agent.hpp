@@ -19,6 +19,7 @@ public:
     virtual void update(float time_step) = 0;
     virtual void draw(sf::RenderWindow *window) const = 0;
     // TODO: reward function
+    virtual void control_movement(std::vector<int> move) = 0;
     
 protected:
     Agent(b2Vec2 initial_position);

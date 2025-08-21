@@ -23,10 +23,13 @@ public:
     
     void update(float time_step) override;
     void draw(sf::RenderWindow *window) const override;
+    void control_movement(std::vector<int> move) override;
+
     void move_leg(int leg_ind, bool pos_dir);
     void release_leg(int leg_ind);
     void debug();
     sf::Vector2f get_location();
+    // TODO: move based on a vector
 
     std::vector<float> get_actor_state_repr();
     float reward(); // lets use velocity based reward functions

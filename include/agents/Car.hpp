@@ -24,6 +24,7 @@ public:
     
     void update(float time_steps) override;
     void draw(sf::RenderWindow *window) const override;
+    void control_movement(std::vector<int> move) override;
     void move_forward();
     void move_reverse();
     void move_neutral();

@@ -164,7 +164,17 @@ std::vector<float> Car::get_actor_state_repr() {
     return parts;
 }
 
-
+void Car::control_movement(std::vector<int> move) {
+    if (move[0] == 1) {
+        move_forward();
+    } else if (move[0] == 0) {
+        move_neutral();
+    } else if (move[0] == -1) {
+        move_reverse();
+    } else {
+        std::cout<<"Illegal movement"<<std::endl;
+    }
+}
 
 Car::~Car() {
     delete car_body;
