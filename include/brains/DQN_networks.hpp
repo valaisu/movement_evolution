@@ -1,26 +1,31 @@
+#ifndef DQN_NETWORKS_HPP
+#define DQN_NETWORKS_HPP
 
-
-// Q - netowork
-
-// T -network
-/*
 #include <torch/torch.h>
 
-// Define a simple neural network
-struct QNet : torch::nn::Module {
-  QNet() {
-    fc1 = register_module("fc1", torch::nn::Linear(512, 256));
-    fc2 = register_module("fc2", torch::nn::Linear(256, 128));
-    fc3 = register_module("fc2", torch::nn::Linear(128, 64));
-  }
-  
-  torch::Tensor forward(torch::Tensor x) {
-    x = torch::relu(fc1->forward(x));
-    x = torch::relu(fc2->forward(x));
-    x = fc3->forward(x);
-    return x;
-  }
-  
-  torch::nn::Linear fc1{nullptr}, fc2{nullptr};
+// Let's just define both Q and T networks in the same class, 
+// bc they are quite intertwined
+
+
+class QTNet : torch::nn::Module {
+public:
+    QTNet();
+    ~QTNet();
+    void copy_Q_to_T();
+    torch::Tensor forward_Q(torch::Tensor x);
+    torch::Tensor forward_T(torch::Tensor x);
+
+private:
+    torch::nn::Linear fc1_Q{nullptr};
+    torch::nn::Linear fc2_Q{nullptr};
+    torch::nn::Linear fc3_Q{nullptr};
+
+    torch::nn::Linear fc1_T{nullptr};
+    torch::nn::Linear fc2_T{nullptr};
+    torch::nn::Linear fc3_T{nullptr};
 };
-*/
+
+
+
+
+#endif
